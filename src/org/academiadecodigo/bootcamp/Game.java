@@ -35,7 +35,7 @@ public class Game implements MouseHandler, KeyboardHandler {
         keyboard.addEventListener(pressSpace);
 
 
-        while(score < 10){
+        while(score < fishes.length){
             score = 0;
             for (int i = 0; i < fishes.length; i++) {
                 //for(int y = 0; y <= 500; y++) {
@@ -48,7 +48,7 @@ public class Game implements MouseHandler, KeyboardHandler {
                 fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }
-            cenario.setScore(score + "/10");
+            cenario.setScore(score + "/" + fishes.length);
         }
     }
 
@@ -83,7 +83,6 @@ public class Game implements MouseHandler, KeyboardHandler {
     public void keyReleased(KeyboardEvent keyboardEvent) {
         if(keyboardEvent.KEY_SPACE == keyboardEvent.getKey()) {
             isInsideFish(posX, posY);
-
         }
     }
 
