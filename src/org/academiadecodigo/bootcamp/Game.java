@@ -14,12 +14,12 @@ public class Game implements MouseHandler, KeyboardHandler {
     private Fishes[] fishes;
     private double posX;
     private double posY;
+    private int score = 0;
 
     public Game() {
         fishes = new Fishes[10];
     }
     public void start(Cenario cenario, Player player) throws InterruptedException {
-
         createFishes();
 
         //MOUSE EVENTS
@@ -35,15 +35,20 @@ public class Game implements MouseHandler, KeyboardHandler {
         keyboard.addEventListener(pressSpace);
 
 
-        while(true){
+        while(score < 10){
+            score = 0;
             for (int i = 0; i < fishes.length; i++) {
                 //for(int y = 0; y <= 500; y++) {
                 //    System.out.println(y);
                 //}
+                if(fishes[i].isFished()) {
+                    score++;
+                }
                 Thread.sleep(2);
                 fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }
+            cenario.setScore(score + "/10");
         }
     }
 
@@ -60,6 +65,7 @@ public class Game implements MouseHandler, KeyboardHandler {
             if (x >= f.getX() && x <= (f.getX() + f.getWidth()/*FISH SIZE*/) &&
                     (y - 25/*mouse Y default value*/ >= f.getY()) && (y - 25/*mouse Y default value*/ <= (f.getY() + f.getHeight()/*FISH SIZE*/))) {
                 if (f.isFishable()) {
+                        f.setFished(true);
                         f.delete();
                 }
                 return true;
