@@ -25,7 +25,8 @@ public class Game implements MouseHandler, KeyboardHandler {
     public void menu() throws InterruptedException{
         menu = new Menu();
         while(!menu.isStartClicked()) {
-            Thread.sleep(2);
+            menu.animationFishes();
+            Thread.sleep(100);
             if (menu.isStartClicked()) {
                 menu.delete();
                 start();
