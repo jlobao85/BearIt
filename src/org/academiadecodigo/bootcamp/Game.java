@@ -38,7 +38,7 @@ public class Game implements MouseHandler, KeyboardHandler {
     public void start() throws InterruptedException {
         cenario = new Cenario();
         createFishes();
-
+        cenario.seaDraw();
         //MOUSE EVENTS
         Mouse mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
@@ -58,6 +58,7 @@ public class Game implements MouseHandler, KeyboardHandler {
                 //for(int y = 0; y <= 500; y++) {
                 //    System.out.println(y);
                 //}
+                cenario.seaMovements();
                 if(fishes[i].isFished()) {
                     score++;
                 }
