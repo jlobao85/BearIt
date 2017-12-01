@@ -16,6 +16,7 @@ public class Game implements MouseHandler, KeyboardHandler {
     private double posY;
     private Menu menu;
     private Cenario cenario;
+    private int score = 0;
 
     public Game() {
         fishes = new Fishes[10];
@@ -23,8 +24,6 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void menu() throws InterruptedException{
         menu = new Menu();
-        /*Mouse menuMouse = new Mouse(this);
-        menuMouse.addEventListener(MouseEventType.MOUSE_CLICKED);*/
         while(!menu.isStartClicked()) {
             Thread.sleep(2);
             if (menu.isStartClicked()) {
@@ -37,7 +36,7 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void start() throws InterruptedException {
         cenario = new Cenario();
-            createFishes();
+        createFishes();
 
         //MOUSE EVENTS
         Mouse mouse = new Mouse(this);
@@ -52,15 +51,20 @@ public class Game implements MouseHandler, KeyboardHandler {
         keyboard.addEventListener(pressSpace);
 
 
-        while(true){
+        while(score < fishes.length){
+            score = 0;
             for (int i = 0; i < fishes.length; i++) {
                 //for(int y = 0; y <= 500; y++) {
                 //    System.out.println(y);
                 //}
+                if(fishes[i].isFished()) {
+                    score++;
+                }
                 Thread.sleep(2);
                 fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }
+            cenario.setScore(score + "/" + fishes.length);
         }
     }
 
@@ -77,6 +81,7 @@ public class Game implements MouseHandler, KeyboardHandler {
             if (x >= f.getX() && x <= (f.getX() + f.getWidth()/*FISH SIZE*/) &&
                     (y - 25/*mouse Y default value*/ >= f.getY()) && (y - 25/*mouse Y default value*/ <= (f.getY() + f.getHeight()/*FISH SIZE*/))) {
                 if (f.isFishable()) {
+                        f.setFished(true);
                         f.delete();
                 }
                 return true;
@@ -94,7 +99,6 @@ public class Game implements MouseHandler, KeyboardHandler {
     public void keyReleased(KeyboardEvent keyboardEvent) {
         if(keyboardEvent.KEY_SPACE == keyboardEvent.getKey()) {
             isInsideFish(posX, posY);
-
         }
     }
 
@@ -106,15 +110,8 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-       /* double x = e.getX();
-        double y = e.getY();
-        clickStart(x, y);*/
+
     }
 
-    /*private void clickStart(double x, double y)  {
-        if((x >= menu.getX() && x<= (menu.getX()+menu.getWidth())) && (y-25>= menu.getY() && y-25<= (menu.getY()+menu.getHeight()))){
-            System.out.println("Clicked");
-            this.startClicked = true;
-        }
-    }*/
+
 }
