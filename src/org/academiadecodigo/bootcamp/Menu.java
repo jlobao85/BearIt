@@ -30,6 +30,7 @@ public class Menu implements MouseHandler {
         start.grow(30,25);
         Mouse menuMouse = new Mouse(this);
         menuMouse.addEventListener(MOUSE_CLICKED);
+        startClicked = false;
     }
 
     public void init() throws InterruptedException {
@@ -62,9 +63,14 @@ public class Menu implements MouseHandler {
 
     private void clickStart(double x, double y)  {
         if((x >= startRectangle.getX() && x<= (startRectangle.getX()+startRectangle.getWidth())) && (y-25>= startRectangle.getY() && y-25<= (startRectangle.getY()+startRectangle.getHeight()))){
-            System.out.println("Clicked");
             this.startClicked = true;
         }
+    }
+
+    public void delete() {
+        menuRectangle.delete();
+        startRectangle.delete();
+        start.delete();
     }
 
     public boolean isStartClicked() {

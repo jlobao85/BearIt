@@ -19,24 +19,25 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public Game() {
         fishes = new Fishes[10];
-        menu = new Menu();
     }
 
-    public void menu(){
+    public void menu() throws InterruptedException{
+        menu = new Menu();
         /*Mouse menuMouse = new Mouse(this);
         menuMouse.addEventListener(MouseEventType.MOUSE_CLICKED);*/
-
-        if (menu.isStartClicked()) {
-            System.out.println("Started");
-            start();
-
+        while(!menu.isStartClicked()) {
+            Thread.sleep(2);
+            if (menu.isStartClicked()) {
+                menu.delete();
+                start();
+            }
         }
 
     }
 
-    public void start()  {
+    public void start() throws InterruptedException {
         cenario = new Cenario();
-        createFishes();
+            createFishes();
 
         //MOUSE EVENTS
         Mouse mouse = new Mouse(this);
@@ -53,10 +54,10 @@ public class Game implements MouseHandler, KeyboardHandler {
 
         while(true){
             for (int i = 0; i < fishes.length; i++) {
-                for(int y = 0; y <= 500; y++) {
-                    System.out.println(y);
-                }
-                //Thread.sleep(2);
+                //for(int y = 0; y <= 500; y++) {
+                //    System.out.println(y);
+                //}
+                Thread.sleep(2);
                 fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }
