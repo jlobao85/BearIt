@@ -62,7 +62,7 @@ public class Game implements MouseHandler, KeyboardHandler {
                 if(fishes[i].isFished()) {
                     score++;
                 }
-                Thread.sleep(2);
+                Thread.sleep(0);
                 //fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }

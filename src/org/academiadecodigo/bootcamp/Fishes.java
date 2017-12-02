@@ -270,9 +270,12 @@ public class Fishes{
     public void checkBounds()  {
         if (fish.getX() <= 20 || fish.getX() >= 1190 - fish.getWidth()) {
             direction = direction.getOppositeDirection();
-            //while (fish.getX()<=30 || fish.getX() >= 1190 - fish.getWidth()) {
-            moveFromBounds(direction);
-            //}
+            while (fish.getX()<=30) {
+                moveFromBounds(Direction.RIGHT);
+            }
+            while (fish.getX() >= 1190 - fish.getWidth()) {
+                moveFromBounds(Direction.LEFT);
+            }
         }
     }
 
@@ -280,11 +283,11 @@ public class Fishes{
         switch (direction) {
             case LEFT:
                 //Thread.sleep(1);
-                fish.translate(-20,0);
+                fish.translate(-3,0);
                 break;
             case RIGHT:
                 //Thread.sleep(1);
-                fish.translate(20,0);
+                fish.translate(3,0);
                 break;
             case JUMP:
                 break;

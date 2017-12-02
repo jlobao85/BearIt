@@ -44,7 +44,6 @@ public class Cenario {
             }
             counter=0;
         }
-        System.out.println(pic);
     }
     public int getCenarioHeight() {
         return cenario.getHeight();
