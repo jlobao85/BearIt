@@ -21,13 +21,16 @@ public class Fishes{
     private boolean goUp = true;
     private int pic;
     private int counter = 0;
+    public static final int WATERMINY = 520;
+    public static final int WATERMAXY = 750;
+    private static final int JUMPREACH = 350;
 
     public Fishes(int startX, int startY) {
         fish = new Picture(startY, startX, "resources/fish1.png");
         pic=1;
         fish.draw();
         direction = Direction.values()[Randomizer.randomNumber(1,2)];
-        prevY = Randomizer.randomNumber(520,750);
+        prevY = Randomizer.randomNumber(WATERMINY,WATERMAXY);
     }
 
     private void changeDirection(Direction direction) {
@@ -42,7 +45,7 @@ public class Fishes{
         //1 CHANCE IN 500 TO JUMP
         if(Randomizer.randomNumber(1,500) == 99 && goUp) {
             jump = true;
-            prevY = Randomizer.randomNumber(520,750);
+            prevY = Randomizer.randomNumber(WATERMINY,WATERMAXY);
         }
     }
 
@@ -292,7 +295,7 @@ public class Fishes{
         //IS FISH IS GOING UP
         if (goUp) {
             //IF FISH IS OUT OF WATER BECOMES FISHABLE
-            if (fish.getY() <= 510) {
+            if (fish.getY() <= WATERMINY - 10) {
                 fishable = true;
             } else {
                 fishable = false;
@@ -307,14 +310,14 @@ public class Fishes{
             }
 
             //WHEN HE REACHES THE HEIGHT OF 350, HE STARTS GOING DOWN (goUp = FALSE)
-            if (fish.getY() <= 350) {
+            if (fish.getY() <= JUMPREACH) {
                 goUp = false;
             }
         }
         //IF FISH IS GOING DOWN
         if(!goUp) {
             //IF FISH IS OUT OF WATER BECOMES FISHABLE
-            if (fish.getY() <= 510) {
+            if (fish.getY() <= WATERMINY - 10) {
                 fishable = true;
             } else{
                 fishable = false;

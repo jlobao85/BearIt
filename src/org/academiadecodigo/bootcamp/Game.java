@@ -54,7 +54,7 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void createFishes() {
         for (int i = 0; i < fishes.length; i++) {
-            fishes[i] = new Fishes(Randomizer.randomNumber(520,750),Randomizer.randomNumber(30,900));
+            fishes[i] = new Fishes(Randomizer.randomNumber(Fishes.WATERMINY,Fishes.WATERMAXY),Randomizer.randomNumber(30,900));
         }
     }
 
