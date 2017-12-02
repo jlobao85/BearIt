@@ -22,10 +22,11 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public Game() {
         fishes = new Fishes[10];
+        /**/menu = new Menu();
     }
 
     public void menu() throws InterruptedException{
-        menu = new Menu();
+        /**/menu.initMenu();
         while(!menu.isStartClicked()) {
             menu.animationFishes();
             Thread.sleep(100);
@@ -62,7 +63,7 @@ public class Game implements MouseHandler, KeyboardHandler {
         while(score < fishes.length){
             score = 0;
             for (int i = 0; i < fishes.length; i++) {
-                for(int y = 0; y <= 500; y++) {
+                for(int y = 0; y <= 10000; y++) {
                     System.out.println(y);
                 }
                 cenario.seaMovements();
@@ -74,8 +75,11 @@ public class Game implements MouseHandler, KeyboardHandler {
             }
             cenario.setScore(score + "/" + fishes.length);
         }
-        menu();
         TinySound.shutdown();
+        /**/score = 0;
+        /**/menu.changeToGameOver();
+        /**/menu();
+
     }
 
     public void createFishes() {
