@@ -34,11 +34,11 @@ public class Game implements MouseHandler, KeyboardHandler {
         }
 
     }
-
     public void start() throws InterruptedException {
         cenario = new Cenario();
         createFishes();
         cenario.seaDraw();
+
         //MOUSE EVENTS
         Mouse mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
@@ -63,7 +63,7 @@ public class Game implements MouseHandler, KeyboardHandler {
                     score++;
                 }
                 Thread.sleep(2);
-                fishes[i].checkBounds();
+                //fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }
             cenario.setScore(score + "/" + fishes.length);
@@ -83,8 +83,8 @@ public class Game implements MouseHandler, KeyboardHandler {
             if (x >= f.getX() && x <= (f.getX() + f.getWidth()/*FISH SIZE*/) &&
                     (y - 25/*mouse Y default value*/ >= f.getY()) && (y - 25/*mouse Y default value*/ <= (f.getY() + f.getHeight()/*FISH SIZE*/))) {
                 if (f.isFishable()) {
-                        f.setFished(true);
-                        f.delete();
+                    f.setFished(true);
+                    f.delete();
                 }
                 return true;
             }
