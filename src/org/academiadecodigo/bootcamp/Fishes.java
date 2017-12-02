@@ -2,6 +2,8 @@ package org.academiadecodigo.bootcamp;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import org.academiadecodigo.bootcamp.tinysound.Sound;
+import org.academiadecodigo.bootcamp.tinysound.TinySound;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Shape;
@@ -24,10 +26,12 @@ public class Fishes{
     public static final int WATERMINY = 520;
     public static final int WATERMAXY = 750;
     private static final int JUMPREACH = 350;
+    private Sound waterIn = TinySound.loadSound("water_in.wav");
+    private Sound waterOut = TinySound.loadSound("water_out.wav");
 
     public Fishes(int startX, int startY) {
         fish = new Picture(startY, startX, "resources/fish1.png");
-        pic=1;
+        pic = 1;
         fish.draw();
         direction = Direction.values()[Randomizer.randomNumber(1,2)];
         prevY = Randomizer.randomNumber(WATERMINY,WATERMAXY);
@@ -276,6 +280,10 @@ public class Fishes{
             while (fish.getX() >= 1190 - fish.getWidth()) {
                 moveFromBounds(Direction.LEFT);
             }
+            /*if (fish.getX() <= 20 || fish.getX() >= 1190 - fish.getWidth()) {
+                direction = direction.getOppositeDirection();
+                moveFromBounds(direction);
+            }*/
         }
     }
 
@@ -294,11 +302,18 @@ public class Fishes{
         }
     }
 
+    private void playSound(Sound sound){
+        sound.play();
+    }
     private void jump()  {
         //IS FISH IS GOING UP
         if (goUp) {
             //IF FISH IS OUT OF WATER BECOMES FISHABLE
-            if (fish.getY() <= WATERMINY - 10) {
+            if(fish.getY() < WATERMINY && fish.getY() > WATERMINY - 7){
+                fishable = true;
+                if(!fished)playSound(waterOut);
+            }
+            else if(fish.getY() < WATERMINY - 10) {
                 fishable = true;
             } else {
                 fishable = false;
@@ -320,9 +335,14 @@ public class Fishes{
         //IF FISH IS GOING DOWN
         if(!goUp) {
             //IF FISH IS OUT OF WATER BECOMES FISHABLE
-            if (fish.getY() <= WATERMINY - 10) {
+            if(fish.getY() < WATERMINY && fish.getY() > WATERMINY - 7){
                 fishable = true;
-            } else{
+                if(!fished)playSound(waterIn);
+            }
+            else if(fish.getY() <= WATERMINY - 10){
+                fishable = true;
+            }
+            else{
                 fishable = false;
             }
             //Thread.sleep(1);

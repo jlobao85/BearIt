@@ -1,5 +1,7 @@
 package org.academiadecodigo.bootcamp;
 
+import org.academiadecodigo.bootcamp.tinysound.Music;
+import org.academiadecodigo.bootcamp.tinysound.TinySound;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
@@ -36,9 +38,11 @@ public class Game implements MouseHandler, KeyboardHandler {
     }
 
     public void start() throws InterruptedException {
+        TinySound.init();
         cenario = new Cenario();
         createFishes();
         cenario.seaDraw();
+
         //MOUSE EVENTS
         Mouse mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
@@ -51,23 +55,27 @@ public class Game implements MouseHandler, KeyboardHandler {
         pressSpace.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
         keyboard.addEventListener(pressSpace);
 
+        Music song = TinySound.loadMusic("water_moving.wav");
+        song.play(true);
+
 
         while(score < fishes.length){
             score = 0;
             for (int i = 0; i < fishes.length; i++) {
-                //for(int y = 0; y <= 500; y++) {
-                //    System.out.println(y);
-                //}
+                for(int y = 0; y <= 500; y++) {
+                    System.out.println(y);
+                }
                 cenario.seaMovements();
                 if(fishes[i].isFished()) {
                     score++;
                 }
-                Thread.sleep(0);
-                //fishes[i].checkBounds();
+                //Thread.sleep(0);
                 fishes[i].move(fishes[i].getDirection());
             }
             cenario.setScore(score + "/" + fishes.length);
         }
+        menu();
+        TinySound.shutdown();
     }
 
     public void createFishes() {
