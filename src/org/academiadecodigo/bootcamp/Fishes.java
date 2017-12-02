@@ -1,14 +1,21 @@
 package org.academiadecodigo.bootcamp;
 
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.graphics.Shape;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-public class Fishes {
+import java.awt.event.MouseEvent;
+
+public class Fishes{
+
     private boolean fishable = false;
     private boolean fished = false;
     private Picture fish;
     private Direction direction;
+    private Direction prevDirection;
     private int prevY;
     private boolean jump = false;
     private boolean goUp = true;
@@ -20,33 +27,43 @@ public class Fishes {
         pic=1;
         fish.draw();
         direction = Direction.values()[Randomizer.randomNumber(1,2)];
-        prevY = Randomizer.randomNumber(520,780);
+        prevY = Randomizer.randomNumber(520,750);
     }
 
     private void changeDirection(Direction direction) {
         //1 CHANCE IN 150 TO CHANGE DIRECTION
-    if(Randomizer.randomNumber(1,150) == 99) {
-        direction = direction.getOppositeDirection();
-        this.direction = direction;
-    }
+        if(Randomizer.randomNumber(1,150) == 99) {
+            direction = direction.getOppositeDirection();
+            this.direction = direction;
+        }
     }
 
     private void randomJump() {
         //1 CHANCE IN 500 TO JUMP
-        if(Randomizer.randomNumber(1,500) == 99 && goUp == true) {
+        if(Randomizer.randomNumber(1,500) == 99 && goUp) {
             jump = true;
-            prevY = Randomizer.randomNumber(520,780);
+            prevY = Randomizer.randomNumber(520,750);
         }
     }
 
 
     public void move(Direction direction) {
-        changeDirection(direction);
+        checkBounds();
         randomJump();
+        //GET PREVIOUS DIRECTION BEFORE MOVING
+        prevDirection = getDirection();
+
+        //IF ON JUMP CHANGE DIRECTION METHOD NOT AVAILABLE
         if(jump) {
             direction = Direction.JUMP;
         }
-        fishAnimationCounter();
+        else{
+            changeDirection(direction);
+        }
+
+        //FISHES CAN TAKE JUMP DIRECTION AS ARGUMENT NOT JUST RIGHT OR LEFT ANYMORE, THIS WILL MAKE POSSIBLE TO GET PREVDIRECTION IF ON JUMP
+        //SO THAT CORRECT ANIMATION IS PICKED FOR JUMP MOVEMENT AND DIRECTION
+        fishAnimationCounter(direction);
         switch (direction) {
             case LEFT:
                 fish.translate(-Randomizer.randomNumber(1,3),0);
@@ -60,7 +77,7 @@ public class Fishes {
         }
     }
 
-    private void fishAnimationCounter() {
+    private void fishAnimationCounter(Direction direction) {
         counter++;
         if (counter == 10){
             fishAnimation(direction);
@@ -70,13 +87,127 @@ public class Fishes {
 
     private void fishAnimation(Direction direction) {
         switch (direction) {
+            case JUMP:
+                //IF JUMP GET PREVIOUS DIRECTION SO THE RIGHT ANIMATION CAN BE PICKED (LEFT OR RIGHT ANIMATION PICTURES)
+                animationJump(prevDirection);
+                break;
             case RIGHT:
                 animationRight();
-            break;
+                break;
             case LEFT:
                 animationLeft();
                 break;
         }
+    }
+
+    private void animationJump(Direction prevDirection) {
+        this.prevDirection = prevDirection;
+
+        if (prevDirection == Direction.RIGHT && goUp) {
+            if (pic == 6) {
+                fish.load("resources/fish10.png");
+                pic = 1;
+            }
+            if (pic == 5) {
+                fish.load("resources/fish11.png");
+                pic = 6;
+            }
+            if (pic == 4) {
+                fish.load("resources/fish12.png");
+                pic = 5;
+            }
+            if (pic == 3) {
+                fish.load("resources/fish11.png");
+                pic = 4;
+            }
+            if (pic == 2) {
+                fish.load("resources/fish10.png");
+                pic = 3;
+            }
+            if (pic == 1) {
+                fish.load("resources/fish9.png");
+                pic = 2;
+            }
+        }
+        else if (prevDirection == Direction.RIGHT && !goUp) {
+            if (pic == 6) {
+                fish.load("resources/fish14.png");
+                pic = 1;
+            }
+            if (pic == 5) {
+                fish.load("resources/fish15.png");
+                pic = 6;
+            }
+            if (pic == 4) {
+                fish.load("resources/fish16.png");
+                pic = 5;
+            }
+            if (pic == 3) {
+                fish.load("resources/fish15.png");
+                pic = 4;
+            }
+            if (pic == 2) {
+                fish.load("resources/fish14.png");
+                pic = 3;
+            }
+            if (pic == 1) {
+                fish.load("resources/fish13.png");
+                pic = 2;
+            }
+        }
+        else if (prevDirection == Direction.LEFT && goUp) {
+            if (pic == 6) {
+                fish.load("resources/fish18.png");
+                pic = 1;
+            }
+            if (pic == 5) {
+                fish.load("resources/fish19.png");
+                pic = 6;
+            }
+            if (pic == 4) {
+                fish.load("resources/fish20.png");
+                pic = 5;
+            }
+            if (pic == 3) {
+                fish.load("resources/fish19.png");
+                pic = 4;
+            }
+            if (pic == 2) {
+                fish.load("resources/fish18.png");
+                pic = 3;
+            }
+            if (pic == 1) {
+                fish.load("resources/fish17.png");
+                pic = 2;
+            }
+        }
+        else {
+            if (pic == 6) {
+                fish.load("resources/fish22.png");
+                pic = 1;
+            }
+            if (pic == 5) {
+                fish.load("resources/fish23.png");
+                pic = 6;
+            }
+            if (pic == 4) {
+                fish.load("resources/fish24.png");
+                pic = 5;
+            }
+            if (pic == 3) {
+                fish.load("resources/fish23.png");
+                pic = 4;
+            }
+            if (pic == 2) {
+                fish.load("resources/fish22.png");
+                pic = 3;
+            }
+            if (pic == 1) {
+                fish.load("resources/fish21.png");
+                pic = 2;
+            }
+        }
+
     }
 
     private void animationLeft() {
@@ -134,11 +265,11 @@ public class Fishes {
     }
 
     public void checkBounds()  {
-        if (fish.getX() <= 20 || fish.getX() >= 1200 - fish.getWidth()) {
+        if (fish.getX() <= 20 || fish.getX() >= 1190 - fish.getWidth()) {
             direction = direction.getOppositeDirection();
-            while (fish.getX()<=30 || fish.getX() >= 1190 - fish.getWidth()) {
-                moveFromBounds(direction);
-            }
+            //while (fish.getX()<=30 || fish.getX() >= 1190 - fish.getWidth()) {
+            moveFromBounds(direction);
+            //}
         }
     }
 
@@ -146,11 +277,11 @@ public class Fishes {
         switch (direction) {
             case LEFT:
                 //Thread.sleep(1);
-                fish.translate(-Randomizer.randomNumber(1,3),0);
+                fish.translate(-20,0);
                 break;
             case RIGHT:
                 //Thread.sleep(1);
-                fish.translate(Randomizer.randomNumber(1,3),0);
+                fish.translate(20,0);
                 break;
             case JUMP:
                 break;
@@ -166,7 +297,15 @@ public class Fishes {
             } else {
                 fishable = false;
             }
-            fish.translate(0, -5);
+
+            //ON GOING UP MOVEMENT GET DIRECTION AND TRANSLATE ACCORDINGLY
+            if(getDirection() == Direction.LEFT){
+                fish.translate(-5, -5);
+            }
+            else if(getDirection() == Direction.RIGHT){
+                fish.translate(5, -5);
+            }
+
             //WHEN HE REACHES THE HEIGHT OF 350, HE STARTS GOING DOWN (goUp = FALSE)
             if (fish.getY() <= 350) {
                 goUp = false;
@@ -177,11 +316,21 @@ public class Fishes {
             //IF FISH IS OUT OF WATER BECOMES FISHABLE
             if (fish.getY() <= 510) {
                 fishable = true;
-            } else {
+            } else{
                 fishable = false;
             }
             //Thread.sleep(1);
-            fish.translate(0, 5);
+
+            //ON GOING DOWN MOVEMENT GET DIRECTION AND TRANSLATE ACCORDINGLY
+            if(getDirection() == Direction.LEFT){
+                fish.translate(-5, 5);
+            }
+            else if(getDirection() == Direction.RIGHT){
+                fish.translate(5, 5);
+            }
+
+
+
             //WHEN HE REACHES HIS PREVIOUS LOCATION, HE IS OUT OF JUMPING ANYMATION(jump = false)
             if(fish.getY() >= prevY) {
                 jump = false;

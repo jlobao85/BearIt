@@ -45,7 +45,7 @@ public class Game implements MouseHandler, KeyboardHandler {
                     score++;
                 }
                 Thread.sleep(2);
-                fishes[i].checkBounds();
+                //fishes[i].checkBounds();
                 fishes[i].move(fishes[i].getDirection());
             }
             cenario.setScore(score + "/" + fishes.length);
@@ -54,7 +54,7 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void createFishes() {
         for (int i = 0; i < fishes.length; i++) {
-            fishes[i] = new Fishes(Randomizer.randomNumber(520,780),Randomizer.randomNumber(30,900));
+            fishes[i] = new Fishes(Randomizer.randomNumber(520,750),Randomizer.randomNumber(30,900));
         }
     }
 
