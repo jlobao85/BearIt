@@ -1,7 +1,6 @@
 package org.academiadecodigo.bootcamp;
 
 import org.academiadecodigo.bootcamp.tinysound.Music;
-import org.academiadecodigo.bootcamp.tinysound.Sound;
 import org.academiadecodigo.bootcamp.tinysound.TinySound;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -15,23 +14,35 @@ import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 
 public class Game implements MouseHandler, KeyboardHandler {
     private Fishes[] fishes;
-    private double posX;
-    private double posY;
     private Menu menu;
     private Cenario cenario;
-    private int score = 0;
+    private double posX;
+    private double posY;
+    private int score;
+    private int tries;
 
     public Game() {
         fishes = new Fishes[10];
-        /**/menu = new Menu();
+        menu = new Menu();
+
+        //MOUSE EVENTS
+        Mouse mouse = new Mouse(this);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
+
+        //KEYBOARD EVENT
+        Keyboard keyboard = new Keyboard(this);
+        KeyboardEvent pressSpace = new KeyboardEvent();
+        pressSpace.setKey(KeyboardEvent.KEY_SPACE);
+        pressSpace.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        keyboard.addEventListener(pressSpace);
     }
 
     public void menu() throws InterruptedException{
         TinySound.init();
+        score = 0;
+        tries = 30;
         Music song = TinySound.loadMusic("song.wav");
-        //Music loop = TinySound.loadMusic("bearit_loop.wav");
         song.play(true);
-        //loop.play(true);
         menu.initMenu();
         while(!menu.isStartClicked()) {
             menu.animationFishes();
@@ -50,25 +61,13 @@ public class Game implements MouseHandler, KeyboardHandler {
         createFishes();
         cenario.seaDraw();
 
-        //MOUSE EVENTS
-        Mouse mouse = new Mouse(this);
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
-
-        //KEYBOARD EVENT
-        Keyboard keyboard = new Keyboard(this);
-        KeyboardEvent pressSpace = new KeyboardEvent();
-        pressSpace.setKey(KeyboardEvent.KEY_SPACE);
-        pressSpace.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        keyboard.addEventListener(pressSpace);
-
         Music water = TinySound.loadMusic("water_moving.wav");
         water.play(true);
 
-        while(score < fishes.length){
+        while(score < fishes.length && tries > 0){
             score = 0;
             for (int i = 0; i < fishes.length; i++) {
-                for(int y = 0; y <= 300; y++) {
+                for(int y = 0; y <= 200; y++) {
                     System.out.println(y);
                 }
                 cenario.seaMovements();
@@ -79,10 +78,15 @@ public class Game implements MouseHandler, KeyboardHandler {
                 fishes[i].move(fishes[i].getDirection());
             }
             cenario.setScore(score + "/" + fishes.length);
+            cenario.setTries("x " + tries);
         }
         TinySound.shutdown();
-        score = 0;
-        menu.changeToGameOver();
+        if(score == fishes.length){
+            menu.changeToWinMsg();
+        }
+        else{
+            menu.changeToGameOver();
+        }
         menu();
 
     }
@@ -117,6 +121,7 @@ public class Game implements MouseHandler, KeyboardHandler {
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
         if(keyboardEvent.KEY_SPACE == keyboardEvent.getKey()) {
+            tries--;
             isInsideFish(posX, posY);
         }
     }
