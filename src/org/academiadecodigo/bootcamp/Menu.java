@@ -23,6 +23,11 @@ public class Menu implements MouseHandler {
     private Text instructions;
     private Text winMsg;
     private Text gameOver;
+    private Text fishyTeam = new Text(895, 560, "THOSE FISHY GUYS:");
+    private Text amelia = new Text(926, 580, "AMÉLIA");;
+    private Text andre = new Text(926, 600, "ANDRÉ");;
+    private Text joao = new Text(926, 620, "JOÃO L.");;
+    private Text sofia = new Text(926, 640, "SOFIA");;
     private boolean startClicked;
     private boolean isWin;
     private boolean isGameOver;
@@ -45,7 +50,7 @@ public class Menu implements MouseHandler {
         start.grow(30,25);
         start.draw();
         creditsRectangle = new Rectangle(810,650,200,70);
-        credits = new Text(900, 675, "CREDITS");
+        credits = new Text(920, 675, "CREDITS");
         credits.grow(30,25);
         credits.draw();
 
@@ -198,21 +203,19 @@ public class Menu implements MouseHandler {
     }
 
     public void credits(){
-        Text fishyTeam = new Text(400, 0, "THOSE FISHY GUYS!");
-        //fishyTeam.grow(40,35);
+        fishyTeam.setColor(Color.ORANGE);
         fishyTeam.draw();
-        Picture amelia = new Picture(450,-150,"resources/amelia.jpg");
-        amelia.grow(-300,-400);
         amelia.draw();
-        Picture andre = new Picture(650,-150,"resources/andre.jpg");
-        andre.grow(-300,-400);
         andre.draw();
-        Picture joao = new Picture(450,50,"resources/joao.jpg");
-        joao.grow(-300,-400);
         joao.draw();
-        Picture sofia = new Picture(650,50,"resources/sofia.jpg");
-        sofia.grow(-300,-400);
         sofia.draw();
+    }
+    public void deleteCredits(){
+        fishyTeam.delete();
+        amelia.delete();
+        andre.delete();
+        joao.delete();
+        sofia.delete();
     }
 
     @Override
@@ -223,6 +226,7 @@ public class Menu implements MouseHandler {
                 x<= (startRectangle.getX()+startRectangle.getWidth())) &&
                 (y-25>= startRectangle.getY() && y-25<= (startRectangle.getY()+startRectangle.getHeight()))){
             start.setColor(Color.WHITE);
+            credits.setColor(Color.BLACK);
         }
         else if((x >= creditsRectangle.getX() &&
                 x<= (creditsRectangle.getX()+creditsRectangle.getWidth())) &&
@@ -233,6 +237,7 @@ public class Menu implements MouseHandler {
         else{
             start.setColor(Color.BLACK);
             credits.setColor(Color.BLACK);
+            deleteCredits();
         }
     }
 }
