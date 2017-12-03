@@ -51,12 +51,11 @@ public class Game implements MouseHandler, KeyboardHandler {
                 start();
             }
         }
-
     }
 
     public void start() throws InterruptedException {
         score = 0;
-        tries = 50;
+        tries = 30;
         cenario = new Cenario();
         createFishes();
         cenario.seaDraw();
@@ -136,6 +135,4 @@ public class Game implements MouseHandler, KeyboardHandler {
     public void mouseClicked(MouseEvent e) {
 
     }
-
-
 }
