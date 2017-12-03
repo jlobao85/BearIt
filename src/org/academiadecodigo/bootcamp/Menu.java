@@ -1,6 +1,5 @@
 package org.academiadecodigo.bootcamp;
 
-
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import org.academiadecodigo.simplegraphics.graphics.Text;
@@ -15,30 +14,44 @@ public class Menu implements MouseHandler {
 
     private Picture menuRectangle;
     private Rectangle startRectangle;
-    private Rectangle bear;
     private Text start;
+    private Text instructions;
     private Text gameOver;
     private boolean startClicked;
     private boolean isGameOver;
     private Picture[] menuFishes;
     private int pic;
+    private Picture mouse;
+    private Picture spacebar;
 
     public Menu() {
-
         Mouse menuMouse = new Mouse(this);
         menuMouse.addEventListener(MOUSE_CLICKED);
+        menuMouse.addEventListener(MOUSE_MOVED);
         initMenu();
-
     }
 
     public void initMenu() {
         startClicked = false;
-        this.menuRectangle = new Picture(10,10, "resources/bear.jpg");
+        menuRectangle = new Picture(10,10, "resources/bear.jpg");
         menuRectangle.draw();
-        this.startRectangle = new Rectangle(500,650,200,70);
-        this.start = new Text (590, 675, "START");
+        startRectangle = new Rectangle(500,650,200,70);
+
+        start = new Text (590, 675, "START");
         start.draw();
         start.grow(30,25);
+
+        mouse = new Picture(30,690, "resources/mouse.png");
+        spacebar = new Picture(-30,650, "resources/spacebar.png");
+        mouse.draw();
+        mouse.grow(-10,-10);
+        spacebar.draw();
+        spacebar.grow(-110,-30);
+
+        instructions = new Text (80, 650, "POINT     +     SHOOT!");
+        instructions.grow(58,15);
+        instructions.draw();
+
         if(isGameOver) {
             drawGameOver();
         }
@@ -53,23 +66,6 @@ public class Menu implements MouseHandler {
             menuFishes[i].draw();
         }
         pic = 1;
-
-    }
-
-    public int getX(){
-        return startRectangle.getX();
-    }
-
-    public int getY(){
-        return startRectangle.getY();
-    }
-
-    public int getWidth(){
-        return startRectangle.getWidth();
-    }
-
-    public int getHeight(){
-        return startRectangle.getHeight();
     }
 
     @Override
@@ -81,7 +77,7 @@ public class Menu implements MouseHandler {
 
     private void clickStart(double x, double y)  {
         if((x >= startRectangle.getX() && x<= (startRectangle.getX()+startRectangle.getWidth())) && (y-25>= startRectangle.getY() && y-25<= (startRectangle.getY()+startRectangle.getHeight()))){
-            this.startClicked = true;
+            startClicked = true;
             isGameOver = false;
         }
     }
@@ -90,6 +86,9 @@ public class Menu implements MouseHandler {
         menuRectangle.delete();
         startRectangle.delete();
         start.delete();
+        instructions.delete();
+        mouse.delete();
+        spacebar.delete();
         for(int i = 0; i < menuFishes.length; i++) {
             menuFishes[i].delete();
         }
@@ -103,7 +102,7 @@ public class Menu implements MouseHandler {
     }
 
     public void drawGameOver() {
-        this.gameOver = new Text (520, 340, "GAME OVER");
+        this.gameOver = new Text (520, 340, "GREAT JOB!");
         gameOver.draw();
         gameOver.setColor(Color.ORANGE);
         gameOver.grow(40,35);
@@ -173,6 +172,13 @@ public class Menu implements MouseHandler {
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        if((x >= startRectangle.getX() && x<= (startRectangle.getX()+startRectangle.getWidth())) && (y-25>= startRectangle.getY() && y-25<= (startRectangle.getY()+startRectangle.getHeight()))){
+            start.setColor(Color.WHITE);
+        }
+        else{
+            start.setColor(Color.BLACK);
+        }
     }
 }

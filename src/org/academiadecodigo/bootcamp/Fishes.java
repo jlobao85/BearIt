@@ -272,30 +272,22 @@ public class Fishes{
     }
 
     public void checkBounds()  {
-        if (fish.getX() <= 20 || fish.getX() >= 1190 - fish.getWidth()) {
-            direction = direction.getOppositeDirection();
-            while (fish.getX()<=30) {
-                moveFromBounds(Direction.RIGHT);
-            }
-            while (fish.getX() >= 1190 - fish.getWidth()) {
-                moveFromBounds(Direction.LEFT);
-            }
-            /*if (fish.getX() <= 20 || fish.getX() >= 1190 - fish.getWidth()) {
+            if (fish.getX() <= 20 || fish.getX() >= 1190 - fish.getWidth()) {
                 direction = direction.getOppositeDirection();
                 moveFromBounds(direction);
-            }*/
-        }
+            }
+
     }
 
     private void moveFromBounds(Direction direction) {
         switch (direction) {
             case LEFT:
                 //Thread.sleep(1);
-                fish.translate(-3,0);
+                fish.translate(-20,0);
                 break;
             case RIGHT:
                 //Thread.sleep(1);
-                fish.translate(3,0);
+                fish.translate(20,0);
                 break;
             case JUMP:
                 break;
@@ -345,7 +337,6 @@ public class Fishes{
             else{
                 fishable = false;
             }
-            //Thread.sleep(1);
 
             //ON GOING DOWN MOVEMENT GET DIRECTION AND TRANSLATE ACCORDINGLY
             if(getDirection() == Direction.LEFT){
@@ -354,8 +345,6 @@ public class Fishes{
             else if(getDirection() == Direction.RIGHT){
                 fish.translate(5, 5);
             }
-
-
 
             //WHEN HE REACHES HIS PREVIOUS LOCATION, HE IS OUT OF JUMPING ANYMATION(jump = false)
             if(fish.getY() >= prevY) {
@@ -379,6 +368,11 @@ public class Fishes{
 
     public void setFished(boolean fished) {
         this.fished = fished;
+        if(fished){
+            String[] sounds = {"roar.ogg", "ilovethisfish.ogg"};
+            Sound sound = TinySound.loadSound(sounds[Randomizer.randomNumber(2)]);
+            sound.play();
+        }
     }
 
     public int getX() {

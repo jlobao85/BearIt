@@ -1,6 +1,7 @@
 package org.academiadecodigo.bootcamp;
 
 import org.academiadecodigo.bootcamp.tinysound.Music;
+import org.academiadecodigo.bootcamp.tinysound.Sound;
 import org.academiadecodigo.bootcamp.tinysound.TinySound;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -26,12 +27,18 @@ public class Game implements MouseHandler, KeyboardHandler {
     }
 
     public void menu() throws InterruptedException{
-        /**/menu.initMenu();
+        TinySound.init();
+        Music song = TinySound.loadMusic("song.wav");
+        //Music loop = TinySound.loadMusic("bearit_loop.wav");
+        song.play(true);
+        //loop.play(true);
+        menu.initMenu();
         while(!menu.isStartClicked()) {
             menu.animationFishes();
             Thread.sleep(100);
             if (menu.isStartClicked()) {
                 menu.delete();
+                song.stop();
                 start();
             }
         }
@@ -39,7 +46,6 @@ public class Game implements MouseHandler, KeyboardHandler {
     }
 
     public void start() throws InterruptedException {
-        TinySound.init();
         cenario = new Cenario();
         createFishes();
         cenario.seaDraw();
@@ -56,14 +62,13 @@ public class Game implements MouseHandler, KeyboardHandler {
         pressSpace.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
         keyboard.addEventListener(pressSpace);
 
-        Music song = TinySound.loadMusic("water_moving.wav");
-        song.play(true);
-
+        Music water = TinySound.loadMusic("water_moving.wav");
+        water.play(true);
 
         while(score < fishes.length){
             score = 0;
             for (int i = 0; i < fishes.length; i++) {
-                for(int y = 0; y <= 10000; y++) {
+                for(int y = 0; y <= 300; y++) {
                     System.out.println(y);
                 }
                 cenario.seaMovements();
@@ -76,9 +81,9 @@ public class Game implements MouseHandler, KeyboardHandler {
             cenario.setScore(score + "/" + fishes.length);
         }
         TinySound.shutdown();
-        /**/score = 0;
-        /**/menu.changeToGameOver();
-        /**/menu();
+        score = 0;
+        menu.changeToGameOver();
+        menu();
 
     }
 
