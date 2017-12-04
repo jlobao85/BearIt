@@ -60,7 +60,7 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void start() throws InterruptedException {
         score = 0;
-        tries = 30;
+        tries = 50;
         cenario = new Cenario();
         createFishes();
         cenario.seaDraw();
