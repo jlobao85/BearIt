@@ -13,6 +13,7 @@ public class Cenario {
     private int counter;
     private int pic;
 
+    //HAS AND DRAWS ALL ELEMENTS IN THE GAME BUT NOT IN THE MENU WHICH HAS ITS OWN CLASS
     public Cenario() {
         cenario = new Picture(10,10,"resources/cenario.jpg");
         cenario.draw();

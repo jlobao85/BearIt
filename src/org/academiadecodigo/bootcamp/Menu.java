@@ -16,6 +16,7 @@ public class Menu implements MouseHandler {
     private Picture menuRectangle;
     private Picture mouse;
     private Picture spacebar;
+    private Picture logoAcademia = new Picture(865, 470, "resources/logo.png");
     private Rectangle startRectangle;
     private Rectangle creditsRectangle;
     private Text start;
@@ -33,7 +34,7 @@ public class Menu implements MouseHandler {
     private boolean isGameOver;
     private int pic;
 
-
+    //HAS AND DRAWS ALL ELEMENTS IN THE MENU
     public Menu() {
         Mouse menuMouse = new Mouse(this);
         menuMouse.addEventListener(MOUSE_CLICKED);
@@ -49,7 +50,7 @@ public class Menu implements MouseHandler {
         start = new Text (590, 675, "START");
         start.grow(30,25);
         start.draw();
-        creditsRectangle = new Rectangle(810,650,200,70);
+        creditsRectangle = new Rectangle(900,650,100,70);
         credits = new Text(920, 675, "CREDITS");
         credits.grow(30,25);
         credits.draw();
@@ -93,10 +94,15 @@ public class Menu implements MouseHandler {
 
     private void clickStart(double x, double y)  {
         if((x >= startRectangle.getX() && x<= (startRectangle.getX()+startRectangle.getWidth())) && (y-25>= startRectangle.getY() && y-25<= (startRectangle.getY()+startRectangle.getHeight()))){
+            delete();
             startClicked = true;
             isWin = false;
             isGameOver = false;
         }
+    }
+
+    public boolean isStartClicked() {
+        return startClicked;
     }
 
     public void delete() {
@@ -197,14 +203,10 @@ public class Menu implements MouseHandler {
         }
     }
 
-
-    public boolean isStartClicked() {
-        return startClicked;
-    }
-
     public void credits(){
         fishyTeam.setColor(Color.ORANGE);
         fishyTeam.draw();
+        logoAcademia.draw();
         amelia.draw();
         andre.draw();
         joao.draw();
@@ -212,6 +214,7 @@ public class Menu implements MouseHandler {
     }
     public void deleteCredits(){
         fishyTeam.delete();
+        logoAcademia.delete();
         amelia.delete();
         andre.delete();
         joao.delete();

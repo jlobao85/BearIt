@@ -25,7 +25,7 @@ public class Game implements MouseHandler, KeyboardHandler {
         fishes = new Fishes[10];
         menu = new Menu();
 
-        //MOUSE EVENTS
+        //MOUSE EVENT
         Mouse mouse = new Mouse(this);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
@@ -39,14 +39,19 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void menu() throws InterruptedException{
         TinySound.init();
+        //PLAY SONG GAME
         Music song = TinySound.loadMusic("song.wav");
         song.play(true);
+
+        //RESTARTS THE MENU
         menu.initMenu();
+
+        //WHILE START ISN'T CLICKED
         while(!menu.isStartClicked()) {
             menu.animationFishes();
             Thread.sleep(100);
             if (menu.isStartClicked()) {
-                menu.delete();
+                //menu.delete();
                 song.stop();
                 start();
             }
@@ -63,8 +68,10 @@ public class Game implements MouseHandler, KeyboardHandler {
         Music water = TinySound.loadMusic("water_moving.wav");
         water.play(true);
 
+        //WHILE FISHES NOT CATCHED AND NUM OF TRIES REACHES ZERO
         while(score < fishes.length && tries > 0){
             score = 0;
+            //THREAD
             for (int i = 0; i < fishes.length; i++) {
                 for(int y = 0; y <= 200; y++) {
                     System.out.println(y);
@@ -76,17 +83,17 @@ public class Game implements MouseHandler, KeyboardHandler {
                 //Thread.sleep(0);
                 fishes[i].move(fishes[i].getDirection());
             }
-            cenario.setScore(score + "/" + fishes.length);
-            cenario.setTries("x " + tries);
+            cenario.setScore(score + "/" + fishes.length); //SET AND DISPLAYS THE SCORES
+            cenario.setTries("x " + tries); //SETS AND DISPLAYS THE TRIES
         }
-        TinySound.shutdown();
         if(score == fishes.length){
-            menu.changeToWinMsg();
+            menu.changeToWinMsg(); //WIN
         }
         else{
-            menu.changeToGameOver();
+            menu.changeToGameOver(); //LOSE
         }
-        menu();
+        TinySound.shutdown(); //STOP GAMEPLAY SOUNDS
+        menu(); // RESTART EVERYTHING AGAIN NOW WITH A WIN/LOSE MESSAGE
 
     }
 
@@ -99,6 +106,7 @@ public class Game implements MouseHandler, KeyboardHandler {
 
 
     public boolean isInsideFish(double x, double y) {
+        //IF SATISFIES CRITERIA TO CATCH AND IF CATCHES OR NOT THE FISH
         for (Fishes f : fishes) { //recognize that the mouse is inside the rectangle
             if (x >= f.getX() && x <= (f.getX() + f.getWidth()/*FISH SIZE*/) &&
                     (y - 25/*mouse Y default value*/ >= f.getY()) && (y - 25/*mouse Y default value*/ <= (f.getY() + f.getHeight()/*FISH SIZE*/))) {
@@ -119,6 +127,7 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
+        //IF SPACEBAR PRESSED CHECK IF CATCH FISH OR NOT
         if(keyboardEvent.KEY_SPACE == keyboardEvent.getKey()) {
             tries--;
             isInsideFish(posX, posY);

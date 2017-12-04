@@ -271,11 +271,9 @@ public class Fishes{
         }
     }
 
-    public void checkBounds()  {
-            if (fish.getX() <= 20 && direction == Direction.LEFT){
-                direction = direction.getOppositeDirection();
-                moveFromBounds(direction);
-            } else if(fish.getX() >= 1190 - fish.getWidth() && direction == Direction.RIGHT){
+    private void checkBounds()  {
+            if ((fish.getX() <= 20 && direction == Direction.LEFT) ||
+            (fish.getX() >= 1190 - fish.getWidth() && direction == Direction.RIGHT)){
                 direction = direction.getOppositeDirection();
                 moveFromBounds(direction);
             }
@@ -301,7 +299,7 @@ public class Fishes{
     private void jump()  {
         //IS FISH IS GOING UP
         if (goUp) {
-            //IF FISH IS OUT OF WATER BECOMES FISHABLE
+            //IF FISH IS OUT OF WATER BECOMES FISHABLE AND SPLASHES OUT
             if(fish.getY() < WATERMINY && fish.getY() > WATERMINY - 7){
                 fishable = true;
                 if(!fished)playSound(waterOut);
@@ -327,7 +325,7 @@ public class Fishes{
         }
         //IF FISH IS GOING DOWN
         if(!goUp) {
-            //IF FISH IS OUT OF WATER BECOMES FISHABLE
+            //IF FISH IS OUT OF WATER BECOMES FISHABLE AND IF ENTERS WATER SPLASHES IN
             if(fish.getY() < WATERMINY && fish.getY() > WATERMINY - 7){
                 fishable = true;
                 if(!fished)playSound(waterIn);
@@ -347,7 +345,7 @@ public class Fishes{
                 fish.translate(5, 5);
             }
 
-            //WHEN HE REACHES HIS PREVIOUS LOCATION, HE IS OUT OF JUMPING ANYMATION(jump = false)
+            //WHEN HE REACHES HIS PREVIOUS LOCATION, HE IS OUT OF JUMPING ANIMATION(jump = false)
             if(fish.getY() >= prevY) {
                 jump = false;
                 goUp = true;
