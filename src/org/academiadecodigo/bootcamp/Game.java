@@ -127,8 +127,8 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
-        //IF SPACEBAR PRESSED CHECK IF CATCH FISH OR NOT
-        if(keyboardEvent.KEY_SPACE == keyboardEvent.getKey()) {
+        //IF GAME HAS STARTED AND IF SPACEBAR PRESSED CHECK IF CATCH FISH OR NOT
+        if(keyboardEvent.KEY_SPACE == keyboardEvent.getKey() && menu.isStartClicked()) {
             tries--;
             isInsideFish(posX, posY);
         }

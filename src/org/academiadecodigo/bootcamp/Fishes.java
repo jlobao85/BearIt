@@ -10,6 +10,7 @@ import org.academiadecodigo.simplegraphics.graphics.Shape;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.awt.event.MouseEvent;
+import java.util.ConcurrentModificationException;
 
 public class Fishes{
 
@@ -54,7 +55,7 @@ public class Fishes{
     }
 
 
-    public void move(Direction direction) {
+    public void move(Direction direction) throws ConcurrentModificationException {
         checkBounds();
         randomJump();
         //GET PREVIOUS DIRECTION BEFORE MOVING
