@@ -1,16 +1,8 @@
 package org.academiadecodigo.bootcamp;
 
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import org.academiadecodigo.bootcamp.tinysound.Sound;
 import org.academiadecodigo.bootcamp.tinysound.TinySound;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
-import org.academiadecodigo.simplegraphics.graphics.Shape;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-
-import java.awt.event.MouseEvent;
-import java.util.ConcurrentModificationException;
 
 public class Fishes{
 
@@ -29,6 +21,7 @@ public class Fishes{
     private static final int JUMPREACH = 350;
     private Sound waterIn = TinySound.loadSound("water_in.wav");
     private Sound waterOut = TinySound.loadSound("water_out.wav");
+    private Picture[] resources;
 
     public Fishes(int startX, int startY) {
         fish = new Picture(startY, startX, "resources/fish1.png");
@@ -36,7 +29,18 @@ public class Fishes{
         fish.draw();
         direction = Direction.values()[Randomizer.randomNumber(1,2)];
         prevY = Randomizer.randomNumber(WATERMINY,WATERMAXY);
+
+        resources = new Picture[24];
+        resources[0] = fish;
+        for (int i = 1; i < resources.length; i++) {
+            String resource = "resources/fish"+(1+i)+".png";
+            resources[i] = new Picture(0, 0, resource);
+        }
     }
+
+
+
+
 
     private void changeDirection(Direction direction) {
         //1 CHANCE IN 150 TO CHANGE DIRECTION
@@ -55,7 +59,7 @@ public class Fishes{
     }
 
 
-    public void move(Direction direction) throws ConcurrentModificationException {
+    public void move(Direction direction) {
         checkBounds();
         randomJump();
         //GET PREVIOUS DIRECTION BEFORE MOVING
@@ -111,164 +115,216 @@ public class Fishes{
     private void animationJump(Direction prevDirection) {
         this.prevDirection = prevDirection;
 
+        fish.delete();
+
         if (prevDirection == Direction.RIGHT && goUp) {
             if (pic == 6) {
-                fish.load("resources/fish10.png");
+                resources[9].translate((fish.getX() - resources[9].getX()), (fish.getY() - resources[9].getY()));
+                fish = resources[9]; //fish.load("resources/fish10.png");
                 pic = 1;
             }
             if (pic == 5) {
-                fish.load("resources/fish11.png");
+                resources[10].translate((fish.getX() - resources[10].getX()), (fish.getY() - resources[10].getY()));
+                fish = resources[10]; //fish.load("resources/fish11.png");
                 pic = 6;
             }
             if (pic == 4) {
-                fish.load("resources/fish12.png");
+                resources[11].translate((fish.getX() - resources[11].getX()), (fish.getY() - resources[11].getY()));
+                fish = resources[11]; //fish.load("resources/fish12.png");
                 pic = 5;
             }
             if (pic == 3) {
-                fish.load("resources/fish11.png");
+                resources[10].translate((fish.getX() - resources[10].getX()), (fish.getY() - resources[10].getY()));
+                fish = resources[10]; //fish.load("resources/fish11.png");
                 pic = 4;
             }
             if (pic == 2) {
-                fish.load("resources/fish10.png");
+                resources[9].translate((fish.getX() - resources[9].getX()), (fish.getY() - resources[9].getY()));
+                fish = resources[9]; //fish.load("resources/fish10.png");
                 pic = 3;
             }
             if (pic == 1) {
-                fish.load("resources/fish9.png");
+                resources[8].translate((fish.getX() - resources[8].getX()), (fish.getY() - resources[8].getY()));
+                fish = resources[8]; //fish.load("resources/fish9.png");
                 pic = 2;
             }
         }
         else if (prevDirection == Direction.RIGHT && !goUp) {
             if (pic == 6) {
-                fish.load("resources/fish14.png");
+                resources[13].translate((fish.getX() - resources[13].getX()), (fish.getY() - resources[13].getY()));
+                fish = resources[13]; //fish.load("resources/fish14.png");
                 pic = 1;
             }
             if (pic == 5) {
-                fish.load("resources/fish15.png");
+                resources[14].translate((fish.getX() - resources[14].getX()), (fish.getY() - resources[14].getY()));
+                fish = resources[14]; //fish.load("resources/fish15.png");
                 pic = 6;
             }
             if (pic == 4) {
-                fish.load("resources/fish16.png");
+                resources[15].translate((fish.getX() - resources[15].getX()), (fish.getY() - resources[15].getY()));
+                fish = resources[15]; //fish.load("resources/fish16.png");
                 pic = 5;
             }
             if (pic == 3) {
-                fish.load("resources/fish15.png");
+                resources[14].translate((fish.getX() - resources[14].getX()), (fish.getY() - resources[14].getY()));
+                fish = resources[14]; //fish.load("resources/fish15.png");
                 pic = 4;
             }
             if (pic == 2) {
-                fish.load("resources/fish14.png");
+                resources[13].translate((fish.getX() - resources[13].getX()), (fish.getY() - resources[13].getY()));
+                fish = resources[13]; //fish.load("resources/fish14.png");
                 pic = 3;
             }
             if (pic == 1) {
-                fish.load("resources/fish13.png");
+                resources[12].translate((fish.getX() - resources[12].getX()), (fish.getY() - resources[12].getY()));
+                fish = resources[12]; //fish.load("resources/fish13.png");
                 pic = 2;
             }
         }
         else if (prevDirection == Direction.LEFT && goUp) {
             if (pic == 6) {
-                fish.load("resources/fish18.png");
+                resources[17].translate((fish.getX() - resources[17].getX()), (fish.getY() - resources[17].getY()));
+                fish = resources[17]; //fish.load("resources/fish18.png");
                 pic = 1;
             }
             if (pic == 5) {
-                fish.load("resources/fish19.png");
+                resources[18].translate((fish.getX() - resources[18].getX()), (fish.getY() - resources[18].getY()));
+                fish = resources[18]; //fish.load("resources/fish19.png");
                 pic = 6;
             }
             if (pic == 4) {
-                fish.load("resources/fish20.png");
+                resources[19].translate((fish.getX() - resources[19].getX()), (fish.getY() - resources[19].getY()));
+                fish = resources[19]; //fish.load("resources/fish20.png");
                 pic = 5;
             }
             if (pic == 3) {
-                fish.load("resources/fish19.png");
+                resources[18].translate((fish.getX() - resources[18].getX()), (fish.getY() - resources[18].getY()));
+                fish = resources[18]; //fish.load("resources/fish19.png");
                 pic = 4;
             }
             if (pic == 2) {
-                fish.load("resources/fish18.png");
+                resources[17].translate((fish.getX() - resources[17].getX()), (fish.getY() - resources[17].getY()));
+                fish = resources[17]; //fish.load("resources/fish18.png");
                 pic = 3;
             }
             if (pic == 1) {
-                fish.load("resources/fish17.png");
+                resources[16].translate((fish.getX() - resources[16].getX()), (fish.getY() - resources[16].getY()));
+                fish = resources[16]; //fish.load("resources/fish17.png");
                 pic = 2;
             }
         }
         else {
             if (pic == 6) {
-                fish.load("resources/fish22.png");
+                resources[21].translate((fish.getX() - resources[21].getX()), (fish.getY() - resources[21].getY()));
+                fish = resources[21]; //fish.load("resources/fish22.png");
                 pic = 1;
             }
             if (pic == 5) {
-                fish.load("resources/fish23.png");
+                resources[22].translate((fish.getX() - resources[22].getX()), (fish.getY() - resources[22].getY()));
+                fish = resources[22]; //fish.load("resources/fish23.png");
                 pic = 6;
             }
             if (pic == 4) {
-                fish.load("resources/fish24.png");
+                resources[23].translate((fish.getX() - resources[23].getX()), (fish.getY() - resources[23].getY()));
+                fish = resources[23]; //fish.load("resources/fish24.png");
                 pic = 5;
             }
             if (pic == 3) {
-                fish.load("resources/fish23.png");
+                resources[22].translate((fish.getX() - resources[22].getX()), (fish.getY() - resources[22].getY()));
+                fish = resources[22]; //fish.load("resources/fish23.png");
                 pic = 4;
             }
             if (pic == 2) {
-                fish.load("resources/fish22.png");
+                resources[21].translate((fish.getX() - resources[21].getX()), (fish.getY() - resources[21].getY()));
+                fish = resources[21]; //fish.load("resources/fish22.png");
                 pic = 3;
             }
             if (pic == 1) {
-                fish.load("resources/fish21.png");
+                resources[20].translate((fish.getX() - resources[20].getX()), (fish.getY() - resources[20].getY()));
+                fish = resources[20]; //fish.load("resources/fish21.png");
                 pic = 2;
             }
+        }
+
+        if (!isFished()) {
+            fish.draw();
         }
 
     }
 
     private void animationLeft() {
+        fish.delete();
         if (pic == 6) {
-            fish.load("resources/fish6.png");
+            resources[5].translate((fish.getX() - resources[5].getX()), (fish.getY() - resources[5].getY()));
+            fish = resources[5]; //fish.load("resources/fish6.png");
             pic = 1;
         }
         if (pic == 5) {
-            fish.load("resources/fish7.png");
+            resources[6].translate((fish.getX() - resources[6].getX()), (fish.getY() - resources[6].getY()));
+            fish = resources[6]; //fish.load("resources/fish7.png");
             pic = 6;
         }
         if (pic == 4) {
-            fish.load("resources/fish8.png");
+            resources[7].translate((fish.getX() - resources[7].getX()), (fish.getY() - resources[7].getY()));
+            fish = resources[7]; //fish.load("resources/fish8.png");
             pic = 5;
         }
         if (pic == 3) {
-            fish.load("resources/fish7.png");
+            resources[6].translate((fish.getX() - resources[6].getX()), (fish.getY() - resources[6].getY()));
+            fish = resources[6]; //fish.load("resources/fish7.png");
             pic = 4;
         }
         if (pic == 2) {
-            fish.load("resources/fish6.png");
+            resources[5].translate((fish.getX() - resources[5].getX()), (fish.getY() - resources[5].getY()));
+            fish = resources[5]; //fish.load("resources/fish6.png");
             pic = 3;
         }
         if (pic == 1) {
-            fish.load("resources/fish5.png");
+            resources[4].translate((fish.getX() - resources[4].getX()), (fish.getY() - resources[4].getY()));
+            fish = resources[4]; //fish.load("resources/fish5.png");
             pic = 2;
+        }
+
+        if (!isFished()) {
+            fish.draw();
         }
     }
 
     private void animationRight() {
+        fish.delete();
         if (pic == 6) {
-            fish.load("resources/fish2.png");
+            resources[1].translate((fish.getX() - resources[1].getX()), (fish.getY() - resources[1].getY()));
+            fish = resources[1]; //fish.load("resources/fish2.png");
             pic = 1;
         }
         if (pic == 5) {
-            fish.load("resources/fish3.png");
+            resources[2].translate((fish.getX() - resources[2].getX()), (fish.getY() - resources[2].getY()));
+            fish = resources[2]; //fish.load("resources/fish3.png");
             pic = 6;
         }
         if (pic == 4) {
-            fish.load("resources/fish4.png");
+            resources[3].translate((fish.getX() - resources[3].getX()), (fish.getY() - resources[3].getY()));
+            fish = resources[3]; //fish.load("resources/fish4.png");
             pic = 5;
         }
         if (pic == 3) {
-            fish.load("resources/fish3.png");
+            resources[2].translate((fish.getX() - resources[2].getX()), (fish.getY() - resources[2].getY()));
+            fish = resources[2]; //fish.load("resources/fish3.png");
             pic = 4;
         }
         if (pic == 2) {
-            fish.load("resources/fish2.png");
+            resources[1].translate((fish.getX() - resources[1].getX()), (fish.getY() - resources[1].getY()));
+            fish = resources[1]; //fish.load("resources/fish2.png");
             pic = 3;
         }
         if (pic == 1) {
-            fish.load("resources/fish1.png");
+            resources[0].translate((fish.getX() - resources[0].getX()), (fish.getY() - resources[0].getY()));
+            fish = resources[0]; //fish.load("resources/fish1.png");
             pic = 2;
+        }
+
+        if (!isFished()) {
+            fish.draw();
         }
     }
 

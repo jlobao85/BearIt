@@ -15,15 +15,15 @@ import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 public class Game implements MouseHandler, KeyboardHandler {
     private Fishes[] fishes;
     private Menu menu;
-    private Cenario cenario;
+    private Scenario scenario;
     private double posX;
     private double posY;
     private int score;
     private int tries;
 
     public Game() {
-        fishes = new Fishes[10];
         menu = new Menu();
+        fishes = new Fishes[10];
 
         //MOUSE EVENT
         Mouse mouse = new Mouse(this);
@@ -60,10 +60,9 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     public void start() throws InterruptedException {
         score = 0;
-        tries = 30;
-        cenario = new Cenario();
+        tries = 50;
+        scenario = new Scenario();
         createFishes();
-        cenario.seaDraw();
 
         Music water = TinySound.loadMusic("water_moving.wav");
         water.play(true);
@@ -73,18 +72,18 @@ public class Game implements MouseHandler, KeyboardHandler {
             score = 0;
             //THREAD
             for (int i = 0; i < fishes.length; i++) {
-                for(int y = 0; y <= 200; y++) {
+                for(int y = 0; y <= 300; y++) {
                     System.out.println(y);
                 }
-                cenario.seaMovements();
+                scenario.seaMovements();
                 if(fishes[i].isFished()) {
                     score++;
                 }
-                //Thread.sleep(0);
+                //Thread.sleep(5);
                 fishes[i].move(fishes[i].getDirection());
             }
-            cenario.setScore(score + "/" + fishes.length); //SET AND DISPLAYS THE SCORES
-            cenario.setTries("x " + tries); //SETS AND DISPLAYS THE TRIES
+            scenario.setScore(score + "/" + fishes.length); //SET AND DISPLAYS THE SCORES
+            scenario.setTries("x " + tries); //SETS AND DISPLAYS THE TRIES
         }
         if(score == fishes.length){
             menu.changeToWinMsg(); //WIN
@@ -102,8 +101,6 @@ public class Game implements MouseHandler, KeyboardHandler {
             fishes[i] = new Fishes(Randomizer.randomNumber(Fishes.WATERMINY,Fishes.WATERMAXY),Randomizer.randomNumber(30,900));
         }
     }
-
-
 
     public boolean isInsideFish(double x, double y) {
         //IF SATISFIES CRITERIA TO CATCH AND IF CATCHES OR NOT THE FISH
@@ -142,6 +139,5 @@ public class Game implements MouseHandler, KeyboardHandler {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 }
